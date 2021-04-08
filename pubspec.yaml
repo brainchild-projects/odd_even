@@ -32,11 +32,11 @@ flutter:
   fonts:
     - family: Andika New Basic
       fonts:
-        - asset: fonts/Andika_New_Basic/AndikaNewBasic-Regular.ttf
-        - asset: fonts/Andika_New_Basic/AndikaNewBasic-Italic.ttf
+        - asset: fonts/Andika_New_Basic/AndikaNewBasic-readable-R.ttf
+        - asset: fonts/Andika_New_Basic/AndikaNewBasic-readable-I.ttf
           style: italic
-        - asset: fonts/Andika_New_Basic/AndikaNewBasic-Bold.ttf
+        - asset: fonts/Andika_New_Basic/AndikaNewBasic-readable-B.ttf
           weight: 700
-        - asset: fonts/Andika_New_Basic/AndikaNewBasic-BoldItalic.ttf
+        - asset: fonts/Andika_New_Basic/AndikaNewBasic-readable-BI.ttf
           weight: 700
           style: italic
