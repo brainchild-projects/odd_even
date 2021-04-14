@@ -58,19 +58,11 @@ jobs:
       # Run widget tests for our flutter project.
       - run: flutter test --coverage
 
-      - name: Hookup pub tools
-        run: echo "$HOME/.pub-cache/bin" >> $GITHUB_PATH
-
-      - run: pub global activate coverage
-
-      - name: Prepare coverage
-        run: format_coverage --lcov --in=coverage --out=lcov.info --packages=.packages --report-on=lib --report-on=packages
-
       - name: Upload coverage
         uses: coverallsapp/github-action@v1.1.2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          path-to-lcov: lcov.info
+          path-to-lcov: coverage/lcov.info
 
   release:
     name: Release
