@@ -31,6 +31,9 @@
 .pub/
 /build/
 
+# Test coverage
+/coverage/
+
 # Internal packages dependencies
 /packages/**/pubspec.lock
 
