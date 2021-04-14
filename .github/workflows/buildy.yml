@@ -82,7 +82,7 @@ jobs:
           fetch-depth: 0
 
       - name: Get dependencies
-        run: pub get
+        run: flutter pub get
 
       - name: Install release_tools
         run: pub global activate release_tools
@@ -90,26 +90,19 @@ jobs:
       - name: Hookup pub tools
         run: echo "$HOME/.pub-cache/bin" >> $GITHUB_PATH
 
-      - name: Check if pub tools are available
-        run: which release_tools
-
       - name: Get current version
         id: currentVersion
         run: echo "::set-output name=value::$(release_tools current_version)"
-
-      - run: echo ${{ steps.currentVersion.outputs.value }}
 
       - name: Get commitId of last tag of that version
         id: lastCommitId
         run: echo "::set-output name=value::$(release_tools remote_tag_id ${{ steps.currentVersion.outputs.value }})"
 
-      - run: echo ${{ steps.lastCommitId.outputs.value }}
-
       - name: Use commitId to check if we should release
         id: shouldRelease
         run: echo "::set-output name=value::$(release_tools should_release --from ${{ steps.lastCommitId.outputs.value }})"
 
-      - run: echo ${{ steps.shouldRelease.outputs.value }}
+      - run: echo "Should we release? ${{ steps.shouldRelease.outputs.value }}."
 
       - name: If we can release, get the next version
         if: steps.shouldRelease.outputs.value == 'yes'
