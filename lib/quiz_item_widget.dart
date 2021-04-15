@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 import 'quiz_item.dart';
 
-typedef QuizWidgetScreen = Widget Function(
-  QuizItem quizItem,
-);
+typedef QuizWidgetScreen = Widget Function();
 
-class QuizItemWidget extends StatefulWidget {
+typedef QuizDoneCallback = void Function(QuizEvaluation evaluation);
+
+class QuizItemWidget extends StatelessWidget {
   final QuizItem quizItem;
   final QuizWidgetScreen problemScreen;
   final QuizWidgetScreen evaluationScreen;
@@ -19,32 +19,7 @@ class QuizItemWidget extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _QuizItemWidgetState createState() => _QuizItemWidgetState(
-        quizItem,
-        problemScreen,
-        evaluationScreen,
-      );
-}
-
-class _QuizItemWidgetState extends State<QuizItemWidget> {
-  final QuizItem quizItem;
-  final QuizWidgetScreen problemScreen;
-  final QuizWidgetScreen evaluationScreen;
-
-  _QuizItemWidgetState(
-    this.quizItem,
-    this.problemScreen,
-    this.evaluationScreen,
-  ) : super() {
-    quizItem.addListener(() {
-      setState(() {});
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return quizItem.isUnanswered
-        ? problemScreen(quizItem)
-        : evaluationScreen(quizItem);
+    return quizItem.isUnanswered ? problemScreen() : evaluationScreen();
   }
 }

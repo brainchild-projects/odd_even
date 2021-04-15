@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 
 import '../odd_even_quiz_item.dart';
+import '../quiz_item_widget.dart';
+import '../tiny_app_widgets.dart';
 
 class SolutionScreen extends StatelessWidget {
   final OddEvenQuizItem item;
+  final QuizDoneCallback onDone;
 
-  SolutionScreen(this.item) : super() {
+  SolutionScreen(this.item, {required this.onDone}) : super() {
     if (item.isUnanswered) {
       throw StateError('Quiz item must already be answered for SolutionScreen');
     }
@@ -15,6 +18,7 @@ class SolutionScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final answer = item.evaluation!.answer;
+    final tiny = TinyAppWidgets(theme: theme);
 
     final feedback = item.isCorrect
         ? 'Yup. ${item.number} is ${answer.text}.'
@@ -30,6 +34,10 @@ class SolutionScreen extends StatelessWidget {
               feedback,
               style: theme.textTheme.headline1,
             ),
+            SizedBox(height: 40.0),
+            tiny.sizedButton('Next', fontSize: 32.0, onPressed: () {
+              onDone(item.evaluation!);
+            }),
           ],
         ),
       ),
