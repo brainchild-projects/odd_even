@@ -14,6 +14,11 @@ class SolutionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final answer = item.evaluation!.answer;
+
+    final feedback = item.isCorrect
+        ? 'Yup. ${item.number} is ${answer.text}.'
+        : 'Nope. ${item.number} is ${_oppositeOf(answer as OddEvenAnswer)}.';
 
     return Container(
       color: theme.backgroundColor,
@@ -22,14 +27,16 @@ class SolutionScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              item.isCorrect
-                  ? 'Yup. ${item.number} is ${item.answerText}.'
-                  : 'Nope. ${item.number} is not ${item.answerText}.',
+              feedback,
               style: theme.textTheme.headline1,
             ),
           ],
         ),
       ),
     );
+  }
+
+  String _oppositeOf(OddEvenAnswer answer) {
+    return answer is OddAnswer ? 'even' : 'odd';
   }
 }

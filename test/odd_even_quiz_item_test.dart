@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:odd_even/odd_even_quiz_item.dart';
+import 'package:odd_even/quiz_item.dart';
 
 void main() {
   group(OddEvenQuizItem, () {
@@ -29,10 +30,6 @@ void main() {
           test('is unanswered by default', () {
             expect(item.isUnanswered, true);
           });
-
-          test('shows answerText as none', () {
-            expect(item.answerText, 'none');
-          });
         });
       }
     });
@@ -50,6 +47,7 @@ void main() {
 
     _testData.forEach((number, answer) {
       group('if given the number $number', () {
+        late QuizEvaluation result;
         setUp(() {
           item = OddEvenQuizItem(number);
         });
@@ -57,7 +55,7 @@ void main() {
         if (answer == 'odd') {
           group('as an odd number', () {
             group('when answered with odd', () {
-              setUp(() => item.answerOdd());
+              setUp(() => result = item.answer(OddAnswer()));
 
               test('it is correct', () {
                 expect(item.isCorrect, true);
@@ -67,17 +65,17 @@ void main() {
                 expect(item.isAnswered, true);
               });
 
-              test('it answers odd', () {
-                expect(item.answer, OddEvenQuizItemAnswer.odd);
+              test('evaluation is correct', () {
+                expect(result.isCorrect, true);
               });
 
               test('it answers odd text', () {
-                expect(item.answerText, 'odd');
+                expect(result.answer.text, 'odd');
               });
             });
 
             group('when answered with even', () {
-              setUp(() => item.answerEven());
+              setUp(() => result = item.answer(EvenAnswer()));
 
               test('it is not correct', () {
                 expect(item.isCorrect, false);
@@ -87,19 +85,19 @@ void main() {
                 expect(item.isAnswered, true);
               });
 
-              test('it answers even', () {
-                expect(item.answer, OddEvenQuizItemAnswer.even);
+              test('evaluation is not correct', () {
+                expect(result.isCorrect, false);
               });
 
               test('it answers even text', () {
-                expect(item.answerText, 'even');
+                expect(result.answer.text, 'even');
               });
             });
           });
         } else {
           group('as an even number', () {
             group('when answered with even', () {
-              setUp(() => item.answerEven());
+              setUp(() => result = item.answer(EvenAnswer()));
 
               test('it is correct', () {
                 expect(item.isCorrect, true);
@@ -109,17 +107,17 @@ void main() {
                 expect(item.isAnswered, true);
               });
 
-              test('it answers even', () {
-                expect(item.answer, OddEvenQuizItemAnswer.even);
+              test('evaluation is correct', () {
+                expect(result.isCorrect, true);
               });
 
-              test('it answers even text', () {
-                expect(item.answerText, 'even');
+              test('it answers odd text', () {
+                expect(result.answer.text, 'even');
               });
             });
 
             group('when answered with odd', () {
-              setUp(() => item.answerOdd());
+              setUp(() => result = item.answer(OddAnswer()));
 
               test('it is not correct', () {
                 expect(item.isCorrect, false);
@@ -129,12 +127,12 @@ void main() {
                 expect(item.isAnswered, true);
               });
 
-              test('it answers odd', () {
-                expect(item.answer, OddEvenQuizItemAnswer.odd);
+              test('evaluation is not correct', () {
+                expect(result.isCorrect, false);
               });
 
-              test('it answers odd text', () {
-                expect(item.answerText, 'odd');
+              test('it answers even text', () {
+                expect(result.answer.text, 'odd');
               });
             });
           });
@@ -144,14 +142,14 @@ void main() {
 
     test('it will not override answer if answering again', () {
       item = OddEvenQuizItem(1);
-      item.answerOdd();
-      item.answerEven();
+      item.answer(OddAnswer());
+      item.answer(EvenAnswer());
       expect(item.isAnswered, true);
       expect(item.isCorrect, true);
 
       item = OddEvenQuizItem(3);
-      item.answerEven();
-      item.answerOdd();
+      item.answer(EvenAnswer());
+      item.answer(OddAnswer());
       expect(item.isAnswered, true);
       expect(item.isCorrect, false);
     });
@@ -166,7 +164,7 @@ void main() {
         Duration(milliseconds: 10),
         () => completer.complete(false),
       );
-      item.answerOdd();
+      item.answer(OddAnswer());
       expect(await completer.future, true);
     });
   });

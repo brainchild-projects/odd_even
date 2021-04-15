@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:odd_even/number_generator.dart';
 import 'package:odd_even/odd_even_app.dart';
-import 'package:odd_even/odd_even_quiz_item.dart';
-import 'package:provider/provider.dart';
 
-import 'number_generator.dart';
 import 'tiny_app_theme.dart';
 
 void main() {
@@ -17,11 +15,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: TinyAppTheme.lightThemeData,
-      home: ChangeNotifierProvider(
-        create: (context) => OddEvenQuizItem(
-          NumberGenerator().integer(100),
-        ),
-        child: OddEvenApp(),
+      home: OddEvenApp(
+        numberGenerator: NumberGenerator(),
       ),
     );
   }

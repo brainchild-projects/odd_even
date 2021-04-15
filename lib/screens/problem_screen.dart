@@ -39,7 +39,7 @@ class ProblemScreen extends StatelessWidget {
                   'Odd',
                   fontSize: 32.0,
                   color: kBlue,
-                  onPressed: () => item.answerOdd(),
+                  onPressed: () => item.answer(OddAnswer()),
                 ),
                 SizedBox(
                   width: 100.0,
@@ -48,7 +48,7 @@ class ProblemScreen extends StatelessWidget {
                   'Even',
                   fontSize: 32.0,
                   color: kGreen,
-                  onPressed: () => item.answerEven(),
+                  onPressed: () => item.answer(EvenAnswer()),
                 ),
               ],
             ),
