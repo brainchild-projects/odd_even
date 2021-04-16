@@ -8,7 +8,7 @@ import 'screens/problem_screen.dart';
 import 'screens/solution_screen.dart';
 
 class OddEvenApp extends StatefulWidget {
-  final NumberGenerator numberGenerator;
+  final IntegerFn numberGenerator;
 
   OddEvenApp({Key? key, required this.numberGenerator}) : super(key: key);
 
@@ -17,7 +17,7 @@ class OddEvenApp extends StatefulWidget {
 }
 
 class _OddEvenAppState extends State<OddEvenApp> {
-  final NumberGenerator numberGenerator;
+  final IntegerFn numberGenerator;
   late QuizItem quizItem;
 
   _OddEvenAppState(this.numberGenerator) {
@@ -25,7 +25,7 @@ class _OddEvenAppState extends State<OddEvenApp> {
   }
 
   _generateQuiz() {
-    quizItem = OddEvenQuizItem(numberGenerator.integer(100));
+    quizItem = OddEvenQuizItem(numberGenerator());
     quizItem.addListener(() {
       setState(() {});
     });
